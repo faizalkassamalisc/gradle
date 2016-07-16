@@ -22,8 +22,6 @@ import org.gradle.api.resources.ResourceException
 import org.gradle.test.fixtures.file.LeaksFileHandles
 import org.gradle.test.fixtures.file.TestFile
 import org.gradle.test.fixtures.file.TestNameTestDirectoryProvider
-import org.gradle.util.TestPrecondition
-import org.junit.Assume
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -214,20 +212,6 @@ class UriTextResourceTest {
             fail()
         } catch (MissingResourceException e) {
             assertThat(e.message, equalTo("Could not read <display-name> '$jarUri' as it does not exist." as String))
-        }
-    }
-
-    @Test
-    public void hasNoContentWhenUsingHttpUriAndFileDoesNotExist() {
-        Assume.assumeTrue(TestPrecondition.ONLINE.fulfilled) // when this test moves to spock, ignore this test instead of just passing.
-
-        UriTextResource resource = new UriTextResource('<display-name>', new URI("http://www.gradle.org/unknown.txt"));
-        assertFalse(resource.exists)
-        try {
-            resource.text
-            fail()
-        } catch (MissingResourceException e) {
-            assertThat(e.message, equalTo("Could not read <display-name> 'http://www.gradle.org/unknown.txt' as it does not exist." as String))
         }
     }
 
