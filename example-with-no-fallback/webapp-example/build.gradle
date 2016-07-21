@@ -1,0 +1,11 @@
+apply plugin: 'war'
+
+dependencies {
+    compile "com.snapchat:snapengine-runtime:1.+"
+    compile "com.snapchat:snapengine-inject:1.+"
+    testCompile "com.snapchat:snapengine-testing:1.+"
+}
+
+artifacts {
+    archives war
+}
