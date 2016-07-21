@@ -77,7 +77,8 @@ public class GcsClient {
 
             // TODO - set ACL here if necessary
             String bucket = destination.getHost();
-            StorageObject objectMetadata = new StorageObject().setName(destination.getPath());
+            String path = destination.getPath().replaceAll("%2F", "/");
+            StorageObject objectMetadata = new StorageObject().setName(path);
 
             Storage.Objects.Insert putRequest = googleGcsClient.objects().insert(bucket, objectMetadata, contentStream);
 
@@ -94,7 +95,8 @@ public class GcsClient {
         StorageObject storageObject = null;
 
         try {
-            Storage.Objects.Get getRequest = googleGcsClient.objects().get(uri.getHost(), uri.getPath());
+            String path = uri.getPath().replaceAll("%2F", "/");
+            Storage.Objects.Get getRequest = googleGcsClient.objects().get(uri.getHost(), path);
             storageObject = getRequest.execute();
         } catch (IOException e) {
             throw ResourceExceptions.getFailed(uri, e);
@@ -109,7 +111,8 @@ public class GcsClient {
         StorageObject storageObject = null;
 
         try {
-            Storage.Objects.Get getRequest = googleGcsClient.objects().get(uri.getHost(), uri.getPath());
+            String path = uri.getPath().replaceAll("%2F", "/");
+            Storage.Objects.Get getRequest = googleGcsClient.objects().get(uri.getHost(), path);
             storageObject = getRequest.execute();
         } catch (IOException e) {
             throw ResourceExceptions.getFailed(uri, e);
